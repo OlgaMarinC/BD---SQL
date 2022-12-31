@@ -44,23 +44,48 @@ alter table OlgaMarin.type_monedas
 add constraint type_monedas_pk primary key (id_moneda);
 
 
+create table OlgaMarin.type_color (
+	id_color varchar(10) not null, --PK
+	name varchar(20) not null, 
+	description varchar(250) null 
+);
+alter table OlgaMarin.type_color
+add constraint type_color_pk primary key (id_color);
+
+create table OlgaMarin.type_aseguradora (
+	id_aseguradora varchar(10) not null, --PK
+	name varchar(20) not null, 
+	description varchar(250) null 
+);
+alter table OlgaMarin.type_aseguradora
+add constraint type_aseguradora_pk primary key (id_aseguradora);
+
+
 create table OlgaMarin.vehiculos (
-	id_vehiculo varchar(10) not null, --PK
-	color varchar(20) not null, 
+	id_vehiculo varchar(10) not null,  --PK
+	color varchar(20) not null,        --FK
 	matricula varchar(10) not null,
 	kms integer not null, 
-	aseguradora varchar(20) not null,
+	aseguradora varchar(20) not null,  --FK
 	n_poliza integer not null,
 	fecha_compra date not null,
-	modelo varchar(20) not null, --FK
+	modelo varchar(20) not null,       --FK
 	description varchar(250) null 
 );
 alter table OlgaMarin.vehiculos
 add constraint vehiculos_pk primary key (id_vehiculo);
 
 alter table OlgaMarin.vehiculos 
-add constraint vehiculos_FK foreign key (modelo) 
+add constraint vehiculos_FK1 foreign key (modelo) 
 references OlgaMarin.type_modelos (id_modelo); 
+
+alter table OlgaMarin.vehiculos 
+add constraint vehiculos_FK2 foreign key (color) 
+references OlgaMarin.type_color (id_color); 
+
+alter table OlgaMarin.vehiculos 
+add constraint vehiculos_FK3 foreign key (aseguradora) 
+references OlgaMarin.type_aseguradora (id_aseguradora); 
 
 
 create table OlgaMarin.revisiones (
@@ -182,35 +207,59 @@ insert into OlgaMarin.type_monedas
 (id_moneda, name)
 values ('0002','Dolar');
 
-insert into OlgaMarin.vehiculos
-(id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0001','negro', '9999X', 11000, 'Mapfre', '50500', '2018-05-18', '0001');
+insert into OlgaMarin.type_color
+(id_color, name)
+values ('0001','Negro');
+
+insert into OlgaMarin.type_color
+(id_color, name)
+values ('0002','Blanco');
+
+insert into OlgaMarin.type_color
+(id_color, name)
+values ('0003','Rojo');
+
+insert into OlgaMarin.type_aseguradora
+(id_aseguradora, name)
+values ('0001','AXA');
+
+insert into OlgaMarin.type_aseguradora
+(id_aseguradora, name)
+values ('0002','Mapfre');
+
+insert into OlgaMarin.type_aseguradora
+(id_aseguradora, name)
+values ('0003','Generali');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0002','blanco', '8888X', 15050, 'AXA', '80800', '2018-09-18', '0002');
+values ('0001','0001', '9999X', 11000, '0002', '50500', '2018-05-18', '0001');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0003','rojo', '7777X', 05050, 'AXA', '80801', '2018-10-18', '0003');
+values ('0002','0002', '8888X', 15050, '0001', '80800', '2018-09-18', '0002');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0004','rojo', '6666X', 05080, 'Verti', '00801', '2015-10-18', '0001');
+values ('0003','0003', '7777X', 05050, '0003', '80801', '2018-10-18', '0003');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0005','blanco', '5555X', 35080, 'Verti', '21601', '2022-10-18', '0007');
+values ('0004','0003', '6666X', 05080, '0002', '00801', '2015-10-18', '0001');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0006','negro', '4444X', 2045, 'AXA', '45289', '2020-11-18', '0006');
+values ('0005','0002', '5555X', 35080, '0001', '21601', '2022-10-18', '0007');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0007','negro', '3333X', 11045, 'AXA', '84289', '2020-11-17', '0005');
+values ('0006','0001', '4444X', 2045, '0002', '45289', '2020-11-18', '0006');
 
 insert into OlgaMarin.vehiculos
 (id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
-values ('0008','rojo', '2222X', 51045, 'AXA', '69289', '2017-03-17', '0010');
+values ('0007','0001', '3333X', 11045, '0002', '84289', '2020-11-17', '0005');
+
+insert into OlgaMarin.vehiculos
+(id_vehiculo, color, matricula, kms, aseguradora, n_poliza, fecha_compra, modelo)
+values ('0008','0003', '2222X', 51045, '0001', '69289', '2017-03-17', '0010');
 
